@@ -1,18 +1,23 @@
 import { useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState("");
+  const [image, setImage] = useState(null);
+  const [result, setResult] = useState("");
 
-  const handleUpload = () => {
-    setMessage("📤 Uploading screenshot...");
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(URL.createObjectURL(file));
+      setResult("");
+    }
+  };
+
+  const handleAnalyze = () => {
+    setResult("🤖 AI analyzing...");
 
     setTimeout(() => {
-      setMessage("🤖 AI analyzing image...");
-    }, 1000);
-
-    setTimeout(() => {
-      setMessage("✅ Issue Found: NullPointerException → Suggested Fix Applied");
-    }, 2500);
+      setResult("❌ Error Detected: NullPointerException\n✅ Fix: Add null check before usage");
+    }, 2000);
   };
 
   return (
@@ -20,57 +25,74 @@ function App() {
       minHeight: "100vh",
       background: "#0f172a",
       color: "white",
-      fontFamily: "sans-serif",
       display: "flex",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      fontFamily: "sans-serif"
     }}>
       <div style={{
         width: "350px",
         background: "#1e293b",
-        padding: "25px",
+        padding: "20px",
         borderRadius: "15px",
-        textAlign: "center",
-        boxShadow: "0 0 20px rgba(0,0,0,0.5)"
+        textAlign: "center"
       }}>
 
-        <h1 style={{ marginBottom: "20px" }}>
-          🚀 DevSnap AI
-        </h1>
+        <h2>🚀 DevSnap AI</h2>
 
-        <div style={{ marginBottom: "20px" }}>
-          <h3>📊 Stats</h3>
-          <p>Total Users: 1248</p>
-          <p>Active Sessions: 87</p>
-          <p>Status: 🟢 Online</p>
-        </div>
+        {/* Upload */}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{ marginTop: "15px" }}
+        />
 
-        <div style={{ marginBottom: "20px" }}>
-          <h3>⚡ AI Feature</h3>
-          <p style={{ fontSize: "14px", opacity: 0.8 }}>
-            Upload screenshot → AI detects error → gives fix
-          </p>
-        </div>
+        {/* Preview */}
+        {image && (
+          <img
+            src={image}
+            alt="preview"
+            style={{
+              width: "100%",
+              marginTop: "15px",
+              borderRadius: "10px"
+            }}
+          />
+        )}
 
-        <button
-          onClick={handleUpload}
-          style={{
-            padding: "12px 20px",
-            background: "linear-gradient(90deg,#22c55e,#4ade80)",
-            border: "none",
-            borderRadius: "10px",
-            color: "black",
-            fontWeight: "bold",
-            cursor: "pointer"
-          }}
-        >
-          Upload Screenshot
-        </button>
+        {/* Button */}
+        {image && (
+          <button
+            onClick={handleAnalyze}
+            style={{
+              marginTop: "15px",
+              padding: "10px",
+              width: "100%",
+              background: "#22c55e",
+              border: "none",
+              borderRadius: "8px",
+              color: "black",
+              fontWeight: "bold",
+              cursor: "pointer"
+            }}
+          >
+            Analyze Screenshot
+          </button>
+        )}
 
-        {message && (
-          <p style={{ marginTop: "20px", fontSize: "14px" }}>
-            {message}
-          </p>
+        {/* Result */}
+        {result && (
+          <div style={{
+            marginTop: "15px",
+            padding: "10px",
+            background: "#0f172a",
+            borderRadius: "8px",
+            fontSize: "14px",
+            whiteSpace: "pre-line"
+          }}>
+            {result}
+          </div>
         )}
 
       </div>
