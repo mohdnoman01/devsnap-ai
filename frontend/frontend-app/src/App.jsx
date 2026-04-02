@@ -1,41 +1,79 @@
+import { useState } from "react";
+
 function App() {
+  const [message, setMessage] = useState("");
+
+  const handleUpload = () => {
+    setMessage("📤 Uploading screenshot...");
+
+    setTimeout(() => {
+      setMessage("🤖 AI analyzing image...");
+    }, 1000);
+
+    setTimeout(() => {
+      setMessage("✅ Issue Found: NullPointerException → Suggested Fix Applied");
+    }, 2500);
+  };
+
   return (
     <div style={{
       minHeight: "100vh",
       background: "#0f172a",
       color: "white",
-      padding: "20px",
-      fontFamily: "sans-serif"
+      fontFamily: "sans-serif",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
     }}>
-      <h1 style={{
-        fontSize: "28px",
-        fontWeight: "bold"
+      <div style={{
+        width: "350px",
+        background: "#1e293b",
+        padding: "25px",
+        borderRadius: "15px",
+        textAlign: "center",
+        boxShadow: "0 0 20px rgba(0,0,0,0.5)"
       }}>
-        🚀 DevSnap Dashboard
-      </h1>
 
-      <div style={{marginTop: "20px"}}>
-        <h2>📊 Stats</h2>
-        <p>Total Users: 1248</p>
-        <p>Active Sessions: 87</p>
-        <p>Server Status: Online</p>
+        <h1 style={{ marginBottom: "20px" }}>
+          🚀 DevSnap AI
+        </h1>
+
+        <div style={{ marginBottom: "20px" }}>
+          <h3>📊 Stats</h3>
+          <p>Total Users: 1248</p>
+          <p>Active Sessions: 87</p>
+          <p>Status: 🟢 Online</p>
+        </div>
+
+        <div style={{ marginBottom: "20px" }}>
+          <h3>⚡ AI Feature</h3>
+          <p style={{ fontSize: "14px", opacity: 0.8 }}>
+            Upload screenshot → AI detects error → gives fix
+          </p>
+        </div>
+
+        <button
+          onClick={handleUpload}
+          style={{
+            padding: "12px 20px",
+            background: "linear-gradient(90deg,#22c55e,#4ade80)",
+            border: "none",
+            borderRadius: "10px",
+            color: "black",
+            fontWeight: "bold",
+            cursor: "pointer"
+          }}
+        >
+          Upload Screenshot
+        </button>
+
+        {message && (
+          <p style={{ marginTop: "20px", fontSize: "14px" }}>
+            {message}
+          </p>
+        )}
+
       </div>
-
-      <div style={{marginTop: "20px"}}>
-        <h2>⚡ Feature Demo</h2>
-        <p>Upload screenshot → AI analyzes → gives fix</p>
-      </div>
-
-      <button style={{
-        marginTop: "20px",
-        padding: "10px 20px",
-        background: "#22c55e",
-        border: "none",
-        borderRadius: "8px",
-        color: "black"
-      }}>
-        Upload Screenshot
-      </button>
     </div>
   );
 }
